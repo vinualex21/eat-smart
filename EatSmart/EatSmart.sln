@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EatSmart", "EatSmart\EatSmart.csproj", "{B9A50A57-3FD6-4DF8-BD4A-167C3FFB06F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EatSmart.Tests", "EatSmart.Tests\EatSmart.Tests.csproj", "{50836A5D-DB3E-4E71-8609-411EF9376DAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9A50A57-3FD6-4DF8-BD4A-167C3FFB06F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A50A57-3FD6-4DF8-BD4A-167C3FFB06F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A50A57-3FD6-4DF8-BD4A-167C3FFB06F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A50A57-3FD6-4DF8-BD4A-167C3FFB06F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50836A5D-DB3E-4E71-8609-411EF9376DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50836A5D-DB3E-4E71-8609-411EF9376DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50836A5D-DB3E-4E71-8609-411EF9376DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50836A5D-DB3E-4E71-8609-411EF9376DAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FDACF161-FD69-43B0-8706-002C74E133DA}
+	EndGlobalSection
+EndGlobal
