@@ -34,14 +34,16 @@ namespace EatSmart.Controllers
         [HttpPost]
         public ActionResult<User> CreateNewUser(User user)
         {
-            return _userService.CreateUser(user);
+            _userService.CreateUser(user);
+            return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public ActionResult<User> UpdateUser(long id, User user)
+        public IActionResult UpdateUser(long id, User user)
         {
-            return _userService.UpdateThisUser(id, user);
+            _userService.UpdateThisUser(id, user);
+            return NoContent();
         }
 
         // DELETE api/<UserController>/5
