@@ -20,18 +20,18 @@ namespace EatSmart.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public object FindUserById(long id)
+        public ActionResult<User> FindUserById(long id)
         {
             User _user = _userService.GetUserById(id);
             if (_user != null)
-                return Accepted(_user);
+                return _user;
             else
                 return NotFound(id);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public object CreateNewUser(User user)
+        public ActionResult CreateNewUser(User user)
         {
             _userService.CreateUser(user);
             return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
@@ -39,18 +39,18 @@ namespace EatSmart.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public object UpdateUser(long id, User user)
+        public ActionResult<User> UpdateUser(long id, User user)
         {
             User _user = _userService.UpdateThisUser(id, user);
             if (_user != null)
-                return Accepted(_user);
+                return _user;
             else
                 return NotFound(id);
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public object DeleteUser(long id)
+        public IActionResult DeleteUser(long id)
         {
             if (_userService.DeleteThisUser(id))
                 return Accepted(id);
