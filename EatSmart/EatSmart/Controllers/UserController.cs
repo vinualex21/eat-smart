@@ -16,23 +16,22 @@ namespace EatSmart.Controllers
             _userService = userService;
         }
 
-        // GET: api/<UserController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+ 
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public ActionResult<User> FindUserById(long id)
+        public object FindUserById(long id)
         {
-            return _userService.GetUserById(id);
+            User _user = _userService.GetUserById(id);
+            if (_user != null)
+                return Accepted(_user);
+            else
+                return NotFound(id);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public ActionResult<User> CreateNewUser(User user)
+        public object CreateNewUser(User user)
         {
             _userService.CreateUser(user);
             return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
@@ -40,21 +39,25 @@ namespace EatSmart.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(long id, User user)
+        public object UpdateUser(long id, User user)
         {
-            _userService.UpdateThisUser(id, user);
-            return NoContent();
+            User _user = _userService.UpdateThisUser(id, user);
+            if (_user != null)
+                return Accepted(_user);
+            else
+                return NotFound(id);
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public ActionResult<string> DeleteUser(long id)
+        public object DeleteUser(long id)
         {
-            if(_userService.DeleteThisUser(id))
-                return $"User with UserID {id} deleted";
+            if (_userService.DeleteThisUser(id))
+                return Accepted(id);
             else
-                return $"User with UserID {id} not found";
-        
+                return NotFound(id);
+                
+
         }
     }
 }
