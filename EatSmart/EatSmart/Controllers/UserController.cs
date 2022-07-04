@@ -9,7 +9,7 @@ namespace EatSmart.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
-    {
+    { 
         private readonly IUserService _userService;
         public UserController(IUserService userService)
         {
@@ -27,6 +27,7 @@ namespace EatSmart.Controllers
         [HttpGet("{id}")]
         public ActionResult<User> FindUserById(long id)
         {
+            
             return _userService.GetUserById(id);
         }
 
@@ -34,16 +35,16 @@ namespace EatSmart.Controllers
         [HttpPost]
         public ActionResult<User> CreateNewUser(User user)
         {
-            _userService.CreateUser(user);
-            return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
+            return _userService.CreateUser(user);
+            //return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(long id, User user)
+        public ActionResult<User> UpdateUser(long id, User user)
         {
-            _userService.UpdateThisUser(id, user);
-            return NoContent();
+            return _userService.UpdateThisUser(id, user);
+            //return NoContent();
         }
 
         // DELETE api/<UserController>/5
