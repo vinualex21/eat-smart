@@ -36,7 +36,11 @@ namespace EatSmart.Services
         public User GetUserById(long id)
         {
             var user = _context.Users.Find(id);
-            return user;
+            if (user != null)
+            {
+                return user;
+            }
+            else return user;
         }
 
         public long GetUserId(string name)

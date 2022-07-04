@@ -39,7 +39,7 @@ namespace EatSmart.Tests.UserAPITests
 
             //Assert
 
-            result.Should().BeOfType(typeof(CreatedAtActionResult));
+            result.Should().BeOfType(typeof(ActionResult<User>));
 
            
         }
@@ -73,8 +73,10 @@ namespace EatSmart.Tests.UserAPITests
             var result = _controller.DeleteUser(userId);
             
             //Assert
+
             result.Should().BeOfType(typeof(NotFoundObjectResult));
             
+
         }
 
         [Test]
@@ -90,9 +92,9 @@ namespace EatSmart.Tests.UserAPITests
             var result = _controller.UpdateUser(userId, updatedUser);
 
             //Assert
+
             result.Should().BeOfType(typeof(ActionResult<User>));
    
-
         }
 
         [Test]
@@ -109,8 +111,9 @@ namespace EatSmart.Tests.UserAPITests
             var result = _controller.UpdateUser(userId, updatedUser);
 
             //Assert
-            result.Result.Should().BeOfType(typeof(NotFoundObjectResult));
-            
+
+            result.Result.Should().BeOfType(typeof(NotFoundObjectResult);      
+
         }
 
         [Test]
@@ -144,8 +147,10 @@ namespace EatSmart.Tests.UserAPITests
             var result = _controller.FindUserById(userId);
 
             //Assert
+
             result.Result.Should().BeOfType(typeof(NotFoundObjectResult));
            
+
         }
 
       
