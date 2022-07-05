@@ -33,8 +33,8 @@ namespace EatSmart.Controllers
         [HttpPost]
         public ActionResult CreateNewUser(User user)
         {
-            return _userService.CreateUser(user);
-            //return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
+            _userService.CreateUser(user);
+            return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
         }
 
         // PUT api/<UserController>/5
