@@ -41,8 +41,7 @@ namespace EatSmart.Tests.UserAPITests
 
             result.Should().BeOfType(typeof(ActionResult<User>));
 
-            result.Value.Name.Should().Be("Adie");
-            result.Value.UserId.Should().Be(userId);
+           
         }
 
         [Test]
@@ -58,26 +57,26 @@ namespace EatSmart.Tests.UserAPITests
             var result = _controller.DeleteUser(userId);
 
             //Assert
-            result.Should().BeOfType(typeof(ActionResult<string>));
-            result.Value.Should().Be($"User with UserID {userId} deleted");
-        }
+            result.Should().BeOfType(typeof(AcceptedResult));
+        }   
 
         [Test]
         public void DeleteUser_With_UserId_99_Generates_UserId_Not_Found()
         {
             //Arrange
 
-            long userId = 4;
+            long userId = 99;
 
             _mockUserService.Setup(b => b.DeleteThisUser(userId)).Returns(false);
 
             //Act
             var result = _controller.DeleteUser(userId);
-
+            
             //Assert
-            //Commented because it is not returning bad request(400) It is returning success response instead as needed.
-            //result.Should().BeOfType(typeof(BadRequestObjectResult));
-            result.Value.Should().Be($"User with UserID {userId} not found");
+
+            result.Should().BeOfType(typeof(NotFoundObjectResult));
+            
+
         }
 
         [Test]
@@ -93,11 +92,9 @@ namespace EatSmart.Tests.UserAPITests
             var result = _controller.UpdateUser(userId, updatedUser);
 
             //Assert
-            //result.Should().BeOfType(typeof(NoContentResult));
-            result.Value.Name.Should().Be("Vinu");
-            result.Value.UserId.Should().Be(userId);
 
-
+            result.Should().BeOfType(typeof(ActionResult<User>));
+   
         }
 
         [Test]
@@ -114,9 +111,9 @@ namespace EatSmart.Tests.UserAPITests
             var result = _controller.UpdateUser(userId, updatedUser);
 
             //Assert
-            //result.Should().BeOfType(typeof(BadRequestObjectResult));
-            //result.Value.Should().Be($"User with UserID {userId} not found");
-            result.Value.Should().Be(null);
+
+            result.Result.Should().BeOfType(typeof(NotFoundObjectResult);      
+
         }
 
         [Test]
@@ -130,11 +127,11 @@ namespace EatSmart.Tests.UserAPITests
 
             //Act
             var result = _controller.FindUserById(userId);
+            
 
             //Assert
             result.Should().BeOfType(typeof(ActionResult<User>));
-            result.Value.Name.Should().Be("Apshan");
-            result.Value.UserId.Should().Be(userId);
+   
         }
 
         [Test]
@@ -150,9 +147,10 @@ namespace EatSmart.Tests.UserAPITests
             var result = _controller.FindUserById(userId);
 
             //Assert
-            //result.Should().BeOfType(typeof(BadRequestObjectResult));
-            //result.Value.Should().Be($"User with UserID {userId} not found");
-            result.Value.Should().Be(null);
+
+            result.Result.Should().BeOfType(typeof(NotFoundObjectResult));
+           
+
         }
 
       
