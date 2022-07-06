@@ -39,7 +39,7 @@ namespace EatSmart.Tests.UserAPITests
 
             //Assert
 
-            result.Should().BeOfType(typeof(ActionResult<User>));
+            result.Should().BeOfType(typeof(CreatedAtActionResult));
 
            
         }
