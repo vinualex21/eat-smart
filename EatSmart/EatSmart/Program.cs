@@ -3,18 +3,20 @@ using EatSmart.Models;
 using EatSmart.Services;
 
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddControllers();
 
-//var connectionString = builder.Configuration.GetConnectionString("EatSmart");
+var connectionString = builder.Configuration.GetConnectionString("EatSmartApi");
 
 
 builder.Services.AddDbContext<UserContext>(option =>
-    option.UseInMemoryDatabase("UserDb"));
-  
+    option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
 // Configure Swagger/OpenAPI Documentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,3 +38,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
