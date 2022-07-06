@@ -39,7 +39,7 @@ namespace EatSmart.Tests.UserAPITests
 
             //Assert
 
-            result.Should().BeOfType(typeof(ActionResult<User>));
+            result.Should().BeOfType(typeof(CreatedAtActionResult));
 
            
         }
@@ -112,7 +112,7 @@ namespace EatSmart.Tests.UserAPITests
 
             //Assert
 
-            result.Result.Should().BeOfType(typeof(NotFoundObjectResult);      
+            result.Result.Should().BeOfType(typeof(NotFoundObjectResult));      
 
         }
 
