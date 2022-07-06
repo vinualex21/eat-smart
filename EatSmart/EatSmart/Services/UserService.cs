@@ -1,6 +1,7 @@
 ﻿
 using System;
 using EatSmart.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EatSmart.Services
 {
@@ -35,12 +36,9 @@ namespace EatSmart.Services
 
         public User GetUserById(long id)
         {
-            var user = _context.Users.Find(id);
-            if (user != null)
-            {
-                return user;
-            }
-            else return user;
+            User user = _context.Users.Include(u => u.Intolerances).First(v => v.UserId == id);
+
+            return user;
         }
 
         public long GetUserId(string name)
@@ -53,7 +51,7 @@ namespace EatSmart.Services
         {
             var existinguser = GetUserById(id);
 
-            existinguser.Name = user.Name;
+            existinguser = user;
            
             _context.SaveChanges();
             return user;

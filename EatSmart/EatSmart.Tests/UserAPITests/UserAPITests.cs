@@ -30,7 +30,7 @@ namespace EatSmart.Tests.UserAPITests
         {
             //Arrange
             long userId = 4;
-            User newUser= new() { UserId = userId, Name = "Adie" };
+            User newUser= new() { UserId = userId, FirstName = "Adie" };
 
             _mockUserService.Setup(b => b.CreateUser(newUser)).Returns(newUser);
 
@@ -85,7 +85,7 @@ namespace EatSmart.Tests.UserAPITests
             //Arrange
 
             long userId = 4;
-            User updatedUser = new() { UserId = userId, Name = "Vinu" };
+            User updatedUser = new() { UserId = userId, FirstName = "Vinu" };
             _mockUserService.Setup(b => b.UpdateThisUser(userId, updatedUser)).Returns(updatedUser);
 
             //Act
@@ -103,7 +103,7 @@ namespace EatSmart.Tests.UserAPITests
             //Arrange
 
             long userId = 99;
-            User updatedUser = new() { UserId = userId, Name = "Vinu" };
+            User updatedUser = new() { UserId = userId, FirstName = "Vinu" };
             User? returnedUser = null;
             _mockUserService.Setup(b => b.UpdateThisUser(userId, updatedUser)).Returns(returnedUser);
 
@@ -112,7 +112,7 @@ namespace EatSmart.Tests.UserAPITests
 
             //Assert
 
-            result.Result.Should().BeOfType(typeof(NotFoundObjectResult);      
+            result.Result.Should().BeOfType(typeof(NotFoundObjectResult));      
 
         }
 
@@ -122,7 +122,7 @@ namespace EatSmart.Tests.UserAPITests
             //Arrange
 
             long userId = 4;
-            User user = new() { UserId = userId, Name = "Apshan" };
+            User user = new() { UserId = userId, FirstName = "Apshan" };
             _mockUserService.Setup(b => b.GetUserById(userId)).Returns(user);
 
             //Act
