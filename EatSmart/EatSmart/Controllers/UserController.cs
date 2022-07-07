@@ -11,9 +11,11 @@ namespace EatSmart.Controllers
     public class UserController : ControllerBase
     { 
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IInputValidation _inputValidation;
+        public UserController(IUserService userService, IInputValidation inputValidation)
         {
             _userService = userService;
+            _inputValidation = inputValidation;
         }
 
  
@@ -31,23 +33,36 @@ namespace EatSmart.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public ActionResult CreateNewUser(User user)
+        public IActionResult CreateNewUser(User user)
         {
-            _userService.CreateUser(user);
-            return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
+            string? result = _inputValidation.ValidateUser(user);
+            if ( result == null)
+            {
+                _userService.CreateUser(user);
+                return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
+            }
+            else
+            {
+                return ValidationProblem(result);
+            }
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
         public ActionResult<User> UpdateUser(long id, User user)
         {
+            string? result = _inputValidation.ValidateUser(user);
 
-            User _user = _userService.UpdateThisUser(id, user);
-            if (_user != null)
-                return _user;
+            if (result == null)
+            {
+                User _user = _userService.UpdateThisUser(id, user);
+                if (_user != null)
+                    return _user;
+                else
+                    return NotFound(id);
+            }
             else
-                return NotFound(id);
-
+                return ValidationProblem(result);
         }
 
         // DELETE api/<UserController>/5
