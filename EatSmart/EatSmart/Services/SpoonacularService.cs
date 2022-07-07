@@ -34,7 +34,7 @@ namespace EatSmart.Services
                 parameters.Append($"&maxCalories={mealRequest.MaxCalories}");
             if (mealRequest.MinCalories > 0)
                 parameters.Append($"&minCalories={mealRequest.MinCalories}");
-            if (mealRequest.Type != null)
+            if (mealRequest.Type != MealType.None)
                 parameters.Append($"&type={mealRequest.Type.ToString()}");
 
             HttpResponseMessage response = client.GetAsync(parameters.ToString()).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
