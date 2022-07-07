@@ -37,6 +37,9 @@ namespace EatSmart.Services
             if (mealRequest.Type != MealType.None)
                 parameters.Append($"&type={mealRequest.Type.ToString()}");
 
+            //sort in descending order to get meals closest to the requested calorie limit
+            parameters.Append($"&sort=calories&sortDirection=desc");
+
             HttpResponseMessage response = client.GetAsync(parameters.ToString()).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
             if (response.IsSuccessStatusCode)
             {
