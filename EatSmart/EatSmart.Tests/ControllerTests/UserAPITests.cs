@@ -18,19 +18,22 @@ namespace EatSmart.Tests.UserAPITests
     {
         private UserController _controller;
         private Mock<IUserService> _mockUserService;
+        private Mock<IInputValidation> _mockInputValidation;
 
         [SetUp]
         public void Setup()
         {
             _mockUserService = new Mock<IUserService>();
-            _controller = new UserController(_mockUserService.Object);
+            _mockInputValidation = new Mock<IInputValidation>();
+            _controller = new UserController(_mockUserService.Object, _mockInputValidation.Object);
         }
         [Test]
         public void CreateUser_With_UserId_4_Creates_A_New_User()
         {
             //Arrange
             long userId = 4;
-            User newUser= new() { UserId = userId, FirstName = "Adie" };
+            User newUser= new() { FirstName = "Adie" };
+            newUser.SetUserId(userId);
 
             _mockUserService.Setup(b => b.CreateUser(newUser)).Returns(newUser);
 
@@ -85,7 +88,8 @@ namespace EatSmart.Tests.UserAPITests
             //Arrange
 
             long userId = 4;
-            User updatedUser = new() { UserId = userId, FirstName = "Vinu" };
+            User updatedUser = new() { FirstName = "Vinu" };
+            updatedUser.SetUserId(userId);
             _mockUserService.Setup(b => b.UpdateThisUser(userId, updatedUser)).Returns(updatedUser);
 
             //Act
@@ -103,7 +107,8 @@ namespace EatSmart.Tests.UserAPITests
             //Arrange
 
             long userId = 99;
-            User updatedUser = new() { UserId = userId, FirstName = "Vinu" };
+            User updatedUser = new() { FirstName = "Vinu" };
+            updatedUser.SetUserId(userId);
             User? returnedUser = null;
             _mockUserService.Setup(b => b.UpdateThisUser(userId, updatedUser)).Returns(returnedUser);
 
@@ -122,7 +127,8 @@ namespace EatSmart.Tests.UserAPITests
             //Arrange
 
             long userId = 4;
-            User user = new() { UserId = userId, FirstName = "Apshan" };
+            User user = new() { FirstName = "Apshan" };
+            user.SetUserId(userId);
             _mockUserService.Setup(b => b.GetUserById(userId)).Returns(user);
 
             //Act
