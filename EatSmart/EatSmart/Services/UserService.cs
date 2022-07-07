@@ -23,10 +23,13 @@ namespace EatSmart.Services
 
         public bool DeleteThisUser(long id)
         {
-            var user = _context.Users.Find(id);
+            var user = GetUserById(id);
 
             if (user != null)
             {
+                foreach(Intolerance i in user.Intolerances)
+                    _context.Intolerances.Remove(i);
+
                 _context.Users.Remove(user);
                 _context.SaveChanges();
                 return true;
@@ -41,20 +44,16 @@ namespace EatSmart.Services
             return user;
         }
 
-        public long GetUserId(string name)
+        public User? UpdateThisUser(long id, User user)
         {
-            var user = _context.Users.Find(name);
-            return user.UserId;
-        }
-
-        public User UpdateThisUser(long id, User user)
-        {
-            var existinguser = GetUserById(id);
-
-            existinguser = user;
-           
-            _context.SaveChanges();
-            return user;
+            if(DeleteThisUser(id))
+            {
+                user.SetUserId(id);
+                CreateUser(user);
+                return user;
+            }
+            else
+                return null;
         }
     }
 }

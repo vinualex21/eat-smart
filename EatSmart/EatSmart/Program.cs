@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IInputValidation, InputValidation>();
 builder.Services.AddControllers();
 
 var connectionString = builder.Configuration.GetConnectionString("EatSmartApi");

@@ -6,7 +6,7 @@ namespace EatSmart.Models
     {
       
         [Key]
-        public int id { get; set; }
+        public int id { get; private set; }
         public string name { get; set; }
     }
 }
