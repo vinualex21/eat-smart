@@ -9,14 +9,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
+<<<<<<< HEAD
+builder.Services.AddScoped<IMealService, MealService>();
+builder.Services.AddScoped<ISpoonacularService, SpoonacularService>();
+
+=======
 builder.Services.AddScoped<IInputValidation, InputValidation>();
+>>>>>>> 2ea1774a218117c781236ea65400d187eb5a01af
 builder.Services.AddControllers();
 
 var connectionString = builder.Configuration.GetConnectionString("EatSmartApi");
 
 
 builder.Services.AddDbContext<UserContext>(option =>
-    option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    option.UseInMemoryDatabase("UserDb"));
+
+//builder.Services.AddDbContext<UserContext>(option =>
+ //  option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Configure Swagger/OpenAPI Documentation
 builder.Services.AddEndpointsApiExplorer();

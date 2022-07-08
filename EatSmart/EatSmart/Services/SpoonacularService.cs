@@ -37,10 +37,15 @@ namespace EatSmart.Services
             if (mealRequest.Type != MealType.None)
                 parameters.Append($"&type={mealRequest.Type.ToString()}");
 
+<<<<<<< HEAD
+            HttpResponseMessage response = client.GetAsync(parameters.ToString()).Result;
+            // Blocking call! Program will wait here until a response is received or a timeout occurs.
+=======
             //sort in descending order to get meals closest to the requested calorie limit
             parameters.Append($"&sort=calories&sortDirection=desc");
 
             HttpResponseMessage response = client.GetAsync(parameters.ToString()).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+>>>>>>> 2ea1774a218117c781236ea65400d187eb5a01af
             if (response.IsSuccessStatusCode)
             {
                 //var test = response.Content.ReadAsStringAsync();
