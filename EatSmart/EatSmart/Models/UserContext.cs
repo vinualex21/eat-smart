@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 
 namespace EatSmart.Models
@@ -11,8 +11,6 @@ namespace EatSmart.Models
         }
        
         public DbSet<User> Users { get; set; }
-
-        public DbSet<MealRequest> MealRequests { get; set; }
 
     }
 }
