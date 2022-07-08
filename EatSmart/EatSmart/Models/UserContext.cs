@@ -11,7 +11,9 @@ namespace EatSmart.Models
         }
        
         public DbSet<User> Users { get; set; }
-       
+
+        public DbSet<MealRequest> MealRequests { get; set; }
+
     }
 }
 
