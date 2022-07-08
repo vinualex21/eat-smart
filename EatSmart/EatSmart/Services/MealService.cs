@@ -23,42 +23,45 @@ namespace EatSmart.Services
         public List<MealDto> Get3Meals(MealRequest mealRequest)
         {
             var meals = new List<MealDto>();
-            var totalCalories = mealRequest.MaxCalories;
 
-            mealRequest.Type = MealType.Breakfast;
-            mealRequest.MaxCalories = totalCalories / 3;
-            mealRequest.MinCalories = mealRequest.MaxCalories * 0.5;
-            var availableBreakfast = spoonacularService.GetRecipes(mealRequest).Meals.ToList();
-            if (availableBreakfast.Count() > 0)
-            {
-                var breakfast = ConvertToMealDto(GetRandomMeal(availableBreakfast));
-                breakfast.Type = MealType.Breakfast;
-                meals.Add(breakfast);
-            }
+            var breakFastRequest = SetMealRequest(mealRequest, MealType.Breakfast);
+            var breakfastResponse = spoonacularService.GetRecipes(breakFastRequest);
+            var breakfast = SetMealResponse(breakfastResponse, MealType.Breakfast);
+            meals.Add(breakfast);
 
-            mealRequest.Type = MealType.MainCourse;
-            mealRequest.MaxCalories = totalCalories / 3;
-            mealRequest.MinCalories = mealRequest.MaxCalories * 0.5;
-            var availableLunch = spoonacularService.GetRecipes(mealRequest).Meals.ToList();
-            if (availableLunch.Count() > 0)
-            {
-                var lunch = ConvertToMealDto(GetRandomMeal(availableLunch));
-                lunch.Type = MealType.Lunch;
-                meals.Add(lunch);
-            }
+            var lunchRequest = SetMealRequest(mealRequest, MealType.MainCourse);
+            var lunchResponse = spoonacularService.GetRecipes(lunchRequest);
+            var lunch = SetMealResponse(lunchResponse, MealType.Lunch);
+            meals.Add(lunch);
 
-            mealRequest.Type = MealType.MainCourse;
-            mealRequest.MaxCalories = totalCalories / 3;
-            mealRequest.MinCalories = mealRequest.MaxCalories * 0.5;
-            var availableDinner = spoonacularService.GetRecipes(mealRequest).Meals.ToList();
-            if (availableDinner.Count() > 0)
-            {
-                var dinner = ConvertToMealDto(GetRandomMeal(availableDinner));
-                dinner.Type = MealType.Dinner;
-                meals.Add(dinner);
-            }
+            var dinnerRequest = SetMealRequest(mealRequest, MealType.MainCourse);
+            var dinnerResponse = spoonacularService.GetRecipes(dinnerRequest);
+            var dinner = SetMealResponse(dinnerResponse, MealType.Dinner);
+            meals.Add(dinner);
 
             return meals;
+        }
+
+        private MealRequest SetMealRequest(MealRequest userRequest, MealType mealType)
+        {
+            var mealRequest = new MealRequest();
+            mealRequest.MaxCalories = userRequest.MaxCalories / 3;
+            mealRequest.MinCalories = userRequest.MaxCalories * 0.75;
+            mealRequest.Type = mealType;
+
+            return mealRequest;
+        }
+
+        private MealDto SetMealResponse(MealResponse mealResponse, MealType mealType)
+        {
+            MealDto meal = new MealDto();
+            var availableMeals = mealResponse.Meals.ToList();
+            if (availableMeals.Count() > 0)
+            {
+                meal = ConvertToMealDto(GetRandomMeal(availableMeals));
+                meal.Type = mealType;
+            }
+            return meal;
         }
 
         private Meal GetRandomMeal(List<Meal> meals)

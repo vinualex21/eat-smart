@@ -9,11 +9,13 @@ namespace EatSmart.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
-    { 
+    {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IInputValidation _inputValidation;
+        public UserController(IUserService userService, IInputValidation inputValidation)
         {
             _userService = userService;
+            _inputValidation = inputValidation;
         }
 
  
@@ -26,28 +28,41 @@ namespace EatSmart.Controllers
             if (_user != null)
                 return _user;
             else
-                return NotFound(id);
+                return NotFound($"User with Id {id} is not in the database");
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public ActionResult CreateNewUser(User user)
+        public IActionResult CreateNewUser(User user)
         {
-            _userService.CreateUser(user);
-            return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
+            string? result = _inputValidation.ValidateUser(user);
+            if ( result == null)
+            {
+                _userService.CreateUser(user);
+                return CreatedAtAction(nameof(FindUserById), new { id = user.UserId }, user);
+            }
+            else
+            {
+                return ValidationProblem(result);
+            }
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
         public ActionResult<User> UpdateUser(long id, User user)
         {
+            string? result = _inputValidation.ValidateUser(user);
 
-            User _user = _userService.UpdateThisUser(id, user);
-            if (_user != null)
-                return _user;
+            if (result == null)
+            {
+                User _user = _userService.UpdateThisUser(id, user);
+                if (_user != null)
+                    return _user;
+                else
+                    return NotFound($"User with Id {id} is not in the database");
+            }
             else
-                return NotFound(id);
-
+                return ValidationProblem(result);
         }
 
         // DELETE api/<UserController>/5
@@ -55,9 +70,9 @@ namespace EatSmart.Controllers
         public IActionResult DeleteUser(long id)
         {
             if (_userService.DeleteThisUser(id))
-                return Accepted(id);
+                return Accepted($"User with Id {id} has been deleted");
             else
-                return NotFound(id);
+                return NotFound($"User with Id {id} is not in the database");
                 
 
         }

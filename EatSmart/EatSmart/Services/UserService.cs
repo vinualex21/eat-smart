@@ -23,7 +23,7 @@ namespace EatSmart.Services
 
         public bool DeleteThisUser(long id)
         {
-            var user = _context.Users.Find(id);
+            var user = GetUserById(id);
 
             if (user != null)
             {
@@ -36,25 +36,39 @@ namespace EatSmart.Services
 
         public User GetUserById(long id)
         {
+<<<<<<< HEAD
             User user = _context.Users.Include(u => u.Intolerances).First(v => v.UserId == id);
             //User user = _context.Users.Find(id);
+=======
+            User user = new();
+
+            try
+            {
+                user = _context.Users.First(v => v.UserId == id);
+            }
+            catch (Exception ex)
+            {
+                user = null;
+            }
+>>>>>>> 2ea1774a218117c781236ea65400d187eb5a01af
             return user;
         }
 
-        public long GetUserId(string name)
+        public User? UpdateThisUser(long id, User user)
         {
-            var user = _context.Users.Find(name);
-            return user.UserId;
-        }
+            var existingUser = GetUserById(id);
 
-        public User UpdateThisUser(long id, User user)
-        {
-            var existinguser = GetUserById(id);
-
-            existinguser = user;
-           
-            _context.SaveChanges();
-            return user;
+            if (existingUser != null)
+            {
+                existingUser.FirstName = user.FirstName;
+                existingUser.Surname = user.Surname;
+                existingUser.MaxDailyCalories = user.MaxDailyCalories;
+                existingUser.Intolerances = user.Intolerances;
+                _context.SaveChanges();
+                return user;
+            }
+            else
+                return null;
         }
     }
 }
