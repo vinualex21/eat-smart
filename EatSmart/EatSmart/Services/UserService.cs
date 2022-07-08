@@ -27,9 +27,6 @@ namespace EatSmart.Services
 
             if (user != null)
             {
-                foreach(Intolerance i in user.Intolerances)
-                    _context.Intolerances.Remove(i);
-
                 _context.Users.Remove(user);
                 _context.SaveChanges();
                 return true;
@@ -39,17 +36,30 @@ namespace EatSmart.Services
 
         public User GetUserById(long id)
         {
-            User user = _context.Users.Include(u => u.Intolerances).First(v => v.UserId == id);
+            User user = new();
 
+            try
+            {
+                user = _context.Users.First(v => v.UserId == id);
+            }
+            catch (Exception ex)
+            {
+                user = null;
+            }
             return user;
         }
 
         public User? UpdateThisUser(long id, User user)
         {
-            if(DeleteThisUser(id))
+            var existingUser = GetUserById(id);
+
+            if (existingUser != null)
             {
-                user.SetUserId(id);
-                CreateUser(user);
+                existingUser.FirstName = user.FirstName;
+                existingUser.Surname = user.Surname;
+                existingUser.MaxDailyCalories = user.MaxDailyCalories;
+                existingUser.Intolerances = user.Intolerances;
+                _context.SaveChanges();
                 return user;
             }
             else

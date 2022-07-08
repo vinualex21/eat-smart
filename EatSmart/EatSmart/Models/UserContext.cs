@@ -10,7 +10,6 @@ namespace EatSmart.Models
         }
        
         public DbSet<User> Users { get; set; }
-        public DbSet<Intolerance> Intolerances { get; set; }
        
     }
 }

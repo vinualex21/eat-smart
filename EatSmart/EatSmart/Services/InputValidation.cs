@@ -1,5 +1,6 @@
 ﻿using EatSmart.Models;
 using System.Text.RegularExpressions;
+using System;
 
 namespace EatSmart.Services
 {
@@ -19,25 +20,31 @@ namespace EatSmart.Services
             "Tree_Nut2",
             "Wheat"
         };
-        bool ValidateIntolerance(Intolerance intolerance)
+        bool ValidateIntolerance(string intolerance)
         {
-            return intoleranceList.ToList().Contains(intolerance.name);
+            return intoleranceList.ToList().Contains(intolerance);
       
         }
 
         public string? ValidateUser(User user)
         {
             string alphaOnly = "^[a-zA-Z]*$";
+            string commaSeparatedAlpha = "^([a-zA-Z]?,?)*$";
 
             if (!Regex.IsMatch(user.FirstName, alphaOnly))
                 return "Invalid format for FirstName";
             else if(!Regex.IsMatch(user.Surname, alphaOnly))
                 return "Invalid format for Surname";
-            else
+            else if(user.Intolerances != "" )
             {
-                foreach (Intolerance intolerance in user.Intolerances)
-                    if (!ValidateIntolerance(intolerance))
-                        return $"Intolerance {intolerance} is not known";
+                if (!Regex.IsMatch(user.Intolerances, commaSeparatedAlpha))
+                    return "Invalid format for Intolerances";
+                else
+                {
+                    foreach (string intolerance in user.Intolerances.Split(','))
+                        if (!ValidateIntolerance(intolerance))
+                            return $"Intolerance {intolerance} is not known";
+                }
             }
             return null;
         }

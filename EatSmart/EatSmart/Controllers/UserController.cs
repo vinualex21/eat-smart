@@ -9,7 +9,7 @@ namespace EatSmart.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
-    { 
+    {
         private readonly IUserService _userService;
         private readonly IInputValidation _inputValidation;
         public UserController(IUserService userService, IInputValidation inputValidation)
@@ -28,7 +28,7 @@ namespace EatSmart.Controllers
             if (_user != null)
                 return _user;
             else
-                return NotFound(id);
+                return NotFound($"User with Id {id} is not in the database");
         }
 
         // POST api/<UserController>
@@ -59,7 +59,7 @@ namespace EatSmart.Controllers
                 if (_user != null)
                     return _user;
                 else
-                    return NotFound(id);
+                    return NotFound($"User with Id {id} is not in the database");
             }
             else
                 return ValidationProblem(result);
@@ -70,9 +70,9 @@ namespace EatSmart.Controllers
         public IActionResult DeleteUser(long id)
         {
             if (_userService.DeleteThisUser(id))
-                return Accepted(id);
+                return Accepted($"User with Id {id} has been deleted");
             else
-                return NotFound(id);
+                return NotFound($"User with Id {id} is not in the database");
                 
 
         }
