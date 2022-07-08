@@ -27,6 +27,7 @@
     <None Remove="Microsoft.EntityFrameworkCore.InMemory" />
     <None Remove="Microsoft.Extensions.Configuration" />
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <None Remove="MySql.Data.EntityFrameworkCore" />
   </ItemGroup>
 
   <ItemGroup>

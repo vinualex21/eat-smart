@@ -6,6 +6,15 @@ namespace EatSmart.Models
 {
     public class User
     {
+        public User(long userId)
+        {
+            UserId = userId;
+        }
+
+        public User()
+        {
+
+        }
         [Key]
         public long UserId { get; private set; }
         public string FirstName { get; set; }
