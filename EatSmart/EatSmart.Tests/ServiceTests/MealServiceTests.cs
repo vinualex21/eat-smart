@@ -13,12 +13,14 @@ namespace EatSmart.Tests.ServiceTests
     {
         private Mock<ISpoonacularService> spoonacularService;
         private MealService mealService;
+        private UserContext mealRequestContext;
+
 
         [SetUp]
         public void Setup()
         {
             spoonacularService= new Mock<ISpoonacularService>();
-            mealService = new MealService(spoonacularService.Object);
+            mealService = new MealService(spoonacularService.Object,mealRequestContext);
         }
 
         [Test]

@@ -4,16 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace EatSmart.Services
 {
-    public class MealService
+    public class MealService : IMealService
     {
         private ISpoonacularService spoonacularService;
+        private UserContext _context;
 
-        public MealService(ISpoonacularService _spoonacularService)
+        
+        public MealService(ISpoonacularService _spoonacularService, UserContext mcontext)
         {
             spoonacularService = _spoonacularService;
+            _context = mcontext;
         }
 
         public List<MealDto> Get3Meals(MealRequest mealRequest)

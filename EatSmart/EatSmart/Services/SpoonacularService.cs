@@ -37,7 +37,8 @@ namespace EatSmart.Services
             if (mealRequest.Type != null)
                 parameters.Append($"&type={mealRequest.Type.ToString()}");
 
-            HttpResponseMessage response = client.GetAsync(parameters.ToString()).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            HttpResponseMessage response = client.GetAsync(parameters.ToString()).Result;
+            // Blocking call! Program will wait here until a response is received or a timeout occurs.
             if (response.IsSuccessStatusCode)
             {
                 //var test = response.Content.ReadAsStringAsync();

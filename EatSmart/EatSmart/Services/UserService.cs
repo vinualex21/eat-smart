@@ -37,7 +37,7 @@ namespace EatSmart.Services
         public User GetUserById(long id)
         {
             User user = _context.Users.Include(u => u.Intolerances).First(v => v.UserId == id);
-
+            //User user = _context.Users.Find(id);
             return user;
         }
 
