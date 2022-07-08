@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EatSmart.Services
 {
-    public class MealService
+    public class MealService : IMealService
     {
         private ISpoonacularService spoonacularService;
 
