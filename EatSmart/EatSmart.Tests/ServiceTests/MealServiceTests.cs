@@ -80,28 +80,7 @@ namespace EatSmart.Tests.ServiceTests
                 meals.Add(
                     new Meal()
                     {
-                        Title = "Toast and eggs",
-                        Nutrition = new Nutrition()
-                        {
-                            Nutrients = new List<Nutrient>()
-                            {
-                                new Nutrient()
-                                {
-                                    Amount = 450,
-                                    Name = "Calories",
-                                    Unit = "kcal"
-                                }
-                            }
-                        },
-                    }
-                    );
-            }
-
-            if (mealTypes.Contains(MealType.Breakfast) || mealTypes == null)
-            {
-                meals.Add(
-                    new Meal()
-                    {
+                        Id = 1,
                         Title = "Toast and eggs",
                         Nutrition = new Nutrition()
                         {
@@ -124,6 +103,7 @@ namespace EatSmart.Tests.ServiceTests
                 meals.Add(
                     new Meal()
                     {
+                        Id = 6,
                         Title = "Chicken Fajita Stuffed Bell Pepper",
                         Nutrition = new Nutrition()
                         {
@@ -146,6 +126,7 @@ namespace EatSmart.Tests.ServiceTests
                 meals.Add(
                     new Meal()
                     {
+                        Id = 23,
                         Title = "Plantain Salad",
                         Nutrition = new Nutrition()
                         {
