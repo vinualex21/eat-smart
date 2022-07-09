@@ -42,7 +42,7 @@ namespace EatSmart.Services
         {
             var mealRequest = new MealRequest();
             mealRequest.MaxCalories = userRequest.MaxCalories / 3;
-            mealRequest.MinCalories = userRequest.MaxCalories * 0.75;
+            mealRequest.MinCalories = mealRequest.MaxCalories * 0.75;
             mealRequest.Type = mealType;
 
             return mealRequest;
