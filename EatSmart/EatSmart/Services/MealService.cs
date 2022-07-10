@@ -32,7 +32,11 @@ namespace EatSmart.Services
 
             var dinnerRequest = SetMealRequest(mealRequest, MealType.MainCourse);
             var dinnerResponse = spoonacularService.GetRecipes(dinnerRequest);
-            var dinner = SetMealResponse(dinnerResponse, MealType.Dinner);
+            MealDto dinner;
+            do
+            {
+                dinner = SetMealResponse(dinnerResponse, MealType.Dinner);
+            } while (dinner.Id == lunch.Id);
             meals.Add(dinner);
 
             return meals;
