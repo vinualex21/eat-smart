@@ -72,14 +72,28 @@ namespace EatSmart.Services
 
         private MealDto ConvertToMealDto(Meal mealModel)
         {
+            var nutrients = mealModel.Nutrition?.Nutrients;
             var mealDto = new MealDto()
             {
                 Id = mealModel.Id,
                 Title = mealModel.Title,
-                Calories = mealModel.Nutrition?.Nutrients?.SingleOrDefault(n => n.Name == "Calories")?.Amount ?? 0,
+                Calories = SetNutritionDetails(nutrients, "Calories"),
+                Carbs = SetNutritionDetails(nutrients, "Carbohydrates"),
+                Fat = SetNutritionDetails(nutrients, "Fat"),
+                Protein = SetNutritionDetails(nutrients, "Protein"),
             };
 
             return mealDto;
+        }
+
+        private string SetNutritionDetails(IEnumerable<Nutrient> nutrients, string nutrientType)
+        {
+            if(nutrients == null || nutrients.Count()==0)
+            {
+                return null;
+            }
+            var nutrient = nutrients.SingleOrDefault(n => n.Name == nutrientType);
+            return Math.Round((nutrient?.Amount ?? 0)).ToString() + nutrient?.Unit;
         }
     }
 }
