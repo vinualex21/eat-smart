@@ -48,6 +48,7 @@ namespace EatSmart.Services
             mealRequest.MaxCalories = userRequest.MaxCalories / 3;
             mealRequest.MinCalories = mealRequest.MaxCalories * 0.75;
             mealRequest.Type = mealType;
+            mealRequest.Intolerances = userRequest.Intolerances;
 
             return mealRequest;
         }
