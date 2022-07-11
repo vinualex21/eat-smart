@@ -56,6 +56,25 @@ namespace EatSmart.Tests.ControllerTests
 
             result.Should().BeOfType(typeof(ActionResult<List<MealDto>>));
 
+        }
+
+        [Test]
+        public void GetMeals_For_User_Not_In_Db_Returns_Not_Found()
+        {
+            //Arrange
+            var meals = new List<MealDto>();
+            long userId = 6;
+            User? nouser = null;
+
+            MealRequest? newMealRequest = null;
+            
+            _mockUserService.Setup(u => u.GetUserById(userId)).Returns(nouser);
+            _mockMealService.Setup(m => m.Get3Meals(newMealRequest)).Returns(meals);
+            //Act
+            var result = _controller.GetMeals(userId);
+
+            //Assert
+            result.Result.Should().BeOfType(typeof(NotFoundObjectResult));
 
         }
 
