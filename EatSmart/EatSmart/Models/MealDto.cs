@@ -10,7 +10,7 @@ namespace EatSmart.Models
     public class MealDto : MealBase
     {
         [JsonPropertyOrder(2)]
-        public double Calories { get; set; }
+        public string Calories { get; set; }
         [JsonPropertyOrder(3)]
         public string Carbs { get; set; }
         [JsonPropertyOrder(4)]

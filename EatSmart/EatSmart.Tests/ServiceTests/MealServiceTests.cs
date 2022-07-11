@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace EatSmart.Tests.ServiceTests
 {
@@ -42,7 +43,17 @@ namespace EatSmart.Tests.ServiceTests
 
             //Assert
             result.Should().BeOfType(typeof(List<MealDto>));
-            result.Sum(m => m.Calories).Should().BeLessThanOrEqualTo(3000);
+            double totalCalories = 0;
+            foreach(var item in result)
+            {
+                var mealCalories = Regex.Replace(item.Calories, "[^0-9]", "");
+                if(double.TryParse(mealCalories, out var amount))
+                {
+                    totalCalories += amount;
+                }
+
+            }
+            totalCalories.Should().BeLessThanOrEqualTo(3000);
         }
 
         [Test]

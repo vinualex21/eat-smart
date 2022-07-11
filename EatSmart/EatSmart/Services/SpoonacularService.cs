@@ -39,6 +39,8 @@ namespace EatSmart.Services
 
             //sort in descending order to get meals closest to the requested calorie limit
             parameters.Append($"&sort=calories&sortDirection=desc");
+            //get carbs, fat and protein information
+            parameters.Append($"&minCarbs=0&minFat=0&minProtein=0");
 
             HttpResponseMessage response = client.GetAsync(parameters.ToString()).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
             if (response.IsSuccessStatusCode)

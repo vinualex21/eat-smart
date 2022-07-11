@@ -6,6 +6,9 @@ namespace EatSmart.Services
 {
     public class InputValidation : IInputValidation
     {
+        public const int MIN_CALORIES = 1000;
+        public const int MAX_CALORIES = 10000;
+        
         public static string[] intoleranceList = {
             "Dairy",
             "Egg",
@@ -20,32 +23,37 @@ namespace EatSmart.Services
             "Tree_Nut2",
             "Wheat"
         };
-        bool ValidateIntolerance(string intolerance)
-        {
-            return intoleranceList.ToList().Contains(intolerance);
       
-        }
 
         public string? ValidateUser(User user)
         {
             string alphaOnly = "^[a-zA-Z]*$";
-            string commaSeparatedAlpha = "^([a-zA-Z]?,?)*$";
+            string commaSeparatedAlphaNumeric_ = "^([a-zA-Z_0-9]+,?)+$";
 
             if (!Regex.IsMatch(user.FirstName, alphaOnly))
                 return "Invalid format for FirstName";
-            else if(!Regex.IsMatch(user.Surname, alphaOnly))
+
+            if(!Regex.IsMatch(user.Surname, alphaOnly))
                 return "Invalid format for Surname";
-            else if(user.Intolerances != "" )
+
+            if(user.Intolerances != "" )
             {
-                if (!Regex.IsMatch(user.Intolerances, commaSeparatedAlpha))
+                if (!Regex.IsMatch(user.Intolerances, commaSeparatedAlphaNumeric_))
                     return "Invalid format for Intolerances";
-                else
-                {
-                    foreach (string intolerance in user.Intolerances.Split(','))
-                        if (!ValidateIntolerance(intolerance))
-                            return $"Intolerance {intolerance} is not known";
-                }
+                
+                
+                foreach (string intolerance in user.Intolerances.Split(','))
+                    if (!intoleranceList.ToList().Contains(intolerance))
+                        return $"Intolerance {intolerance} is not known";
+                
             }
+
+            if (user.MaxDailyCalories > MAX_CALORIES)
+                return $"That's too many calories for one day! (Max: {MAX_CALORIES})";
+
+            if(user.MaxDailyCalories < MIN_CALORIES)
+                return $"That's too few calories for one day! (Min: {MIN_CALORIES})";
+
             return null;
         }
 
