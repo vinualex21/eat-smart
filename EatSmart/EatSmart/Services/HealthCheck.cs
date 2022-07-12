@@ -10,7 +10,7 @@ namespace EatSmart.Services
         public Task<HealthCheckResult> CheckHealthAsync(
             HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            var isHealthy = PingHost("cloudflare.com");
+            var isHealthy = PingHost("1.1.1.1");
 
             if (isHealthy)
             {
