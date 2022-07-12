@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using EatSmart.Models;
 using EatSmart.Services;
 using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,11 +31,21 @@ builder.Services.AddDbContext<UserContext>(option => option.UseMySQL(awsDbConnec
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add health Check
+builder.Services.AddHealthChecks().AddDbContextCheck<UserContext>("AWS Database");
+
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = HealthCheck.WriteResponse
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() ||
-app.Environment.EnvironmentName == "Testing")
+app.Environment.EnvironmentName == "Testing" ||
+true)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
