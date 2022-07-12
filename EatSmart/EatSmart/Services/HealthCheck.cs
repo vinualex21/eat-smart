@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Json;
@@ -10,7 +11,7 @@ namespace EatSmart.Services
         public Task<HealthCheckResult> CheckHealthAsync(
             HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            var isHealthy = PingHost("1.1.1.1");
+            var isHealthy = PageUp("https://status.azure.com/en-gb/status");
 
             if (isHealthy)
             {
@@ -82,6 +83,27 @@ namespace EatSmart.Services
                 }
             }
             return pingable;
+        }
+        public bool PageUp(String url)
+        {            
+            try
+            {
+                // Creates an HttpWebRequest for the specified URL.
+                HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                // Sends the HttpWebRequest and waits for a response.
+                HttpWebResponse myHttpWebResponse = (HttpWebResponse)myHttpWebRequest.GetResponse();
+                if (myHttpWebResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    // Releases the resources of the response.
+                    myHttpWebResponse.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 
