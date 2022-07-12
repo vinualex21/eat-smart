@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Json;
 
@@ -9,19 +10,17 @@ namespace EatSmart.Services
         public Task<HealthCheckResult> CheckHealthAsync(
             HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            var isHealthy = true;
-
-            // ...
+            var isHealthy = PingHost("cloudflare.com");
 
             if (isHealthy)
             {
                 return Task.FromResult(
-                    HealthCheckResult.Healthy("A healthy result."));
+                    HealthCheckResult.Healthy("Azure Healthy"));
             }
 
             return Task.FromResult(
                 new HealthCheckResult(
-                    context.Registration.FailureStatus, "An unhealthy result."));
+                    context.Registration.FailureStatus, "Azure down"));
         }
 
         internal static Task WriteResponse(HttpContext context, HealthReport healthReport)
@@ -64,6 +63,25 @@ namespace EatSmart.Services
 
             return context.Response.WriteAsync(
                 Encoding.UTF8.GetString(memoryStream.ToArray()));
+        }
+
+        public bool PingHost(string nameOrAddress, bool throwExceptionOnError = false)
+        {
+            bool pingable = false;
+            using (Ping pinger = new Ping())
+            {
+                try
+                {
+                    PingReply reply = pinger.Send(nameOrAddress);
+                    pingable = reply.Status == IPStatus.Success;
+                }
+                catch (PingException e)
+                {
+                    if (throwExceptionOnError) throw e;
+                    pingable = false;
+                }
+            }
+            return pingable;
         }
     }
 

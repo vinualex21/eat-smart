@@ -33,6 +33,8 @@ builder.Services.AddSwaggerGen();
 
 // Add health Check
 builder.Services.AddHealthChecks().AddDbContextCheck<UserContext>("AWS Database");
+builder.Services.AddHealthChecks().AddCheck<HealthCheck>("Azure Services");
+
 
 
 var app = builder.Build();
