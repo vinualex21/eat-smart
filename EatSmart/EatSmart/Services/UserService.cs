@@ -60,7 +60,7 @@ namespace EatSmart.Services
                 existingUser.MaxDailyCalories = user.MaxDailyCalories;
                 existingUser.Intolerances = user.Intolerances;
                 _context.SaveChanges();
-                return user;
+                return existingUser;
             }
             else
                 return null;
